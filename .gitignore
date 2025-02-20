@@ -1,0 +1,12 @@
+# Node.js & API
+api/node_modules
+api/.env
+
+# React Native
+app/node_modules
+
+# Backoffice React
+backoffice/node_modules
+
+# Global
+.DS_Store
