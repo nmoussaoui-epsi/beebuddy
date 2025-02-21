@@ -1,9 +1,9 @@
 const express = require("express");
-const { getUserMatches } = require("../controllers/matchController");
+const { swipeUser } = require("../controllers/swipeController");
 const protect = require("../middleware/authMiddleware");
 
 const router = express.Router();
 
-router.get("/", protect, getUserMatches);
+router.post("/", protect, swipeUser);
 
 module.exports = router;

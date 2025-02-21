@@ -131,3 +131,66 @@ exports.getProfile = async (req, res) => {
     res.status(500).json({ message: "Erreur serveur", erreur: error.message });
   }
 };
+
+exports.updateProfile = async (req, res) => {
+  try {
+    const {
+      nom,
+      prenom,
+      email,
+      dateDeNaissance,
+      adresse,
+      ville,
+      codePostal,
+      role,
+      competences,
+      tarification,
+      experience,
+      budgetMoyen,
+    } = req.body;
+
+    let user = await User.findById(req.user._id);
+    if (!user)
+      return res.status(404).json({ message: "Utilisateur non trouvé" });
+
+    if (nom) user.nom = nom;
+    if (prenom) user.prenom = prenom;
+    if (email) user.email = email;
+    if (dateDeNaissance) user.dateDeNaissance = dateDeNaissance;
+    if (adresse) user.adresse = adresse;
+    if (ville) user.ville = ville;
+    if (codePostal) user.codePostal = codePostal;
+
+    await user.save();
+
+    let profile;
+    if (user.role === "freelance") {
+      profile = await Freelance.findOneAndUpdate(
+        { utilisateur_id: req.user._id },
+        { competences, tarification, experience },
+        { new: true }
+      );
+    } else if (user.role === "client") {
+      profile = await Client.findOneAndUpdate(
+        { utilisateur_id: req.user._id },
+        { budgetMoyen },
+        { new: true }
+      );
+    }
+
+    res
+      .status(200)
+      .json({ message: "Profil mis à jour avec succès", user, profile });
+  } catch (error) {
+    console.error("ERREUR UPDATE PROFILE :", error);
+    res.status(500).json({ message: "Erreur serveur", erreur: error.message });
+  }
+};
+
+exports.logoutUser = async (req, res) => {
+  try {
+    res.status(200).json({ message: "Déconnexion réussie" });
+  } catch (error) {
+    res.status(500).json({ message: "Erreur serveur", erreur: error.message });
+  }
+};
