@@ -11,6 +11,7 @@ app.use(express.json());
 app.use("/api/auth", require("./routes/authRoutes"));
 app.use("/api/swipes", require("./routes/swipeRoutes"));
 app.use("/api/matches", require("./routes/matchRoutes"));
+app.use("/api/notifications", require("./routes/notificationRoutes"));
 
 app.use((req, res) => {
   res.status(404).json({ message: "Route non trouvée" });

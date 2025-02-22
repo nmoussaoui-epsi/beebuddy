@@ -13,11 +13,9 @@ exports.swipeUser = async (req, res) => {
         .json({ message: "Utilisateur cible introuvable." });
 
     if (req.user.role === cible.role) {
-      return res
-        .status(400)
-        .json({
-          message: "Vous ne pouvez swiper que des utilisateurs de rôle opposé.",
-        });
+      return res.status(400).json({
+        message: "Vous ne pouvez swiper que des utilisateurs de rôle opposé.",
+      });
     }
 
     const existingSwipe = await Swipe.findOne({
@@ -45,6 +43,18 @@ exports.swipeUser = async (req, res) => {
           utilisateur2: cible_id,
         });
         await match.save();
+
+        await Notification.create({
+          utilisateur_id: req.user._id,
+          type: "match",
+          message: "Vous avez un nouveau match avec " + cible.nom,
+        });
+
+        await Notification.create({
+          utilisateur_id: cible_id,
+          type: "match",
+          message: "Vous avez un nouveau match avec " + req.user.nom,
+        });
 
         return res.status(201).json({ message: "Match trouvé !", match });
       }
