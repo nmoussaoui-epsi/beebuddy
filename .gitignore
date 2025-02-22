@@ -1,12 +1,35 @@
-# Node.js & API
-api/node_modules
-api/.env
+# Dependencies
+**/node_modules/
 
-# React Native
-app/node_modules
+# Environment files
+**/.env*
+.env*.local
 
-# Backoffice React
-backoffice/node_modules
+# Expo
+app/.expo/
+app/dist/
+app/web-build/
+app/expo-env.d.ts
 
-# Global
+# Native
+*.orig.*
+*.jks
+*.p8
+*.p12
+*.key
+*.mobileprovision
+
+# Metro
+.metro-health-check*
+
+# Debug
+npm-debug.*
+yarn-debug.*
+yarn-error.*
+
+# TypeScript
+*.tsbuildinfo
+
+# System files
 .DS_Store
+*.pem
