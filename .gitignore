@@ -1,5 +1,6 @@
 # Dependencies
 **/node_modules/
+node_modules/
 
 # Environment files
 **/.env*
@@ -7,9 +8,13 @@
 
 # Expo
 app/.expo/
+.expo/
 app/dist/
+dist/
 app/web-build/
+web-build/
 app/expo-env.d.ts
+expo-env.d.ts
 
 # Native
 *.orig.*
@@ -33,3 +38,6 @@ yarn-error.*
 # System files
 .DS_Store
 *.pem
+
+# Other
+app-example
