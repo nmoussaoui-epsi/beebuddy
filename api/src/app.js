@@ -8,6 +8,10 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
+app.get("/", (req, res) => {
+  res.status(200).json({ message: "BeeBuddy API is running" });
+});
+
 app.use("/api/auth", require("./routes/authRoutes"));
 app.use("/api/swipes", require("./routes/swipeRoutes"));
 app.use("/api/matches", require("./routes/matchRoutes"));

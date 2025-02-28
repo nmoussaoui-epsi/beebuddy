@@ -7,147 +7,131 @@ import {
   KeyboardAvoidingView,
   Platform,
 } from "react-native";
-import { Link, router } from "expo-router";
+import { Link } from "expo-router";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 import { ThemedText } from "@/components/ThemedText";
 import { ThemedView } from "@/components/ThemedView";
-import { Colors } from "@/constants/Colors";
+import { Colors, BeeColors } from "@/constants/Colors";
 import { useColorScheme } from "@/hooks/useColorScheme";
-import { useAuth } from "@/contexts/AuthContext";
+import { useAuthActions } from "@/hooks/useAuthActions";
 
 export default function LoginScreen() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState("");
   const colorScheme = useColorScheme() ?? "light";
-  const { login } = useAuth();
+  const { login, loading, error } = useAuthActions();
 
   const handleLogin = async () => {
-    if (!email || !password) {
-      setError("Veuillez remplir tous les champs");
-      return;
-    }
-
-    setLoading(true);
-    setError("");
-
-    try {
-      const apiUrl = process.env.API_URL || "http://192.168.1.42:5000";
-      const response = await fetch(`${apiUrl}/api/auth/login`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          email,
-          motDePasse: password,
-        }),
-      });
-
-      const data = await response.json();
-
-      if (!response.ok) {
-        throw new Error(data.message || "Erreur de connexion");
-      }
-
-      // Connexion avec le context d'authentification
-      await login(data);
-
-      // Navigation vers l'application principale
-      router.replace("/(tabs)");
-    } catch (err) {
-      setError(err instanceof Error ? err.message : "Une erreur est survenue");
-    } finally {
-      setLoading(false);
-    }
+    await login({ email, motDePasse: password });
   };
 
   return (
-    <KeyboardAvoidingView
-      behavior={Platform.OS === "ios" ? "padding" : "height"}
-      style={styles.container}
+    <SafeAreaView
+      style={[
+        styles.safeArea,
+        {
+          backgroundColor:
+            colorScheme === "dark"
+              ? Colors.dark.background
+              : Colors.light.background,
+        },
+      ]}
     >
-      <ThemedView style={styles.container}>
-        <Image
-          source={require("@/assets/images/beebuddy-logo.png")}
-          style={styles.logo}
-          resizeMode="contain"
-        />
-
-        <ThemedText type="title" style={styles.title}>
-          BeeBuddy
-        </ThemedText>
-        <ThemedText style={styles.subtitle}>
-          Connectez-vous à votre compte
-        </ThemedText>
-
-        {error ? <ThemedText style={styles.error}>{error}</ThemedText> : null}
-
-        <TextInput
-          style={[
-            styles.input,
-            {
-              color: Colors[colorScheme].text,
-              borderColor: Colors[colorScheme].tabIconDefault,
-              backgroundColor: colorScheme === "dark" ? "#2C2C2E" : "#F2F2F7",
-            },
-          ]}
-          placeholder="Email"
-          placeholderTextColor={Colors[colorScheme].tabIconDefault}
-          value={email}
-          onChangeText={setEmail}
-          autoCapitalize="none"
-          keyboardType="email-address"
-        />
-
-        <TextInput
-          style={[
-            styles.input,
-            {
-              color: Colors[colorScheme].text,
-              borderColor: Colors[colorScheme].tabIconDefault,
-              backgroundColor: colorScheme === "dark" ? "#2C2C2E" : "#F2F2F7",
-            },
-          ]}
-          placeholder="Mot de passe"
-          placeholderTextColor={Colors[colorScheme].tabIconDefault}
-          value={password}
-          onChangeText={setPassword}
-          secureTextEntry
-        />
-
-        <TouchableOpacity
-          style={[styles.button, { opacity: loading ? 0.7 : 1 }]}
-          onPress={handleLogin}
-          disabled={loading}
-        >
-          <ThemedText style={styles.buttonText}>
-            {loading ? "Connexion..." : "Se connecter"}
+      <KeyboardAvoidingView
+        behavior={Platform.OS === "ios" ? "padding" : "height"}
+        style={styles.keyboardView}
+      >
+        <ThemedView style={styles.container}>
+          <Image
+            source={require("@/assets/images/beebuddy-logo.png")}
+            style={styles.logo}
+            resizeMode="contain"
+          />
+          <ThemedText style={styles.subtitle}>
+            Connectez-vous à votre compte
           </ThemedText>
-        </TouchableOpacity>
 
-        <ThemedView style={styles.registerContainer}>
-          <ThemedText>Pas encore de compte ? </ThemedText>
-          <Link href="/(auth)/register" asChild>
-            <TouchableOpacity>
-              <ThemedText style={styles.registerText}>S'inscrire</ThemedText>
-            </TouchableOpacity>
-          </Link>
+          {error ? <ThemedText style={styles.error}>{error}</ThemedText> : null}
+
+          <TextInput
+            style={[
+              styles.input,
+              {
+                color: Colors[colorScheme].text,
+                borderColor: Colors[colorScheme].tabIconDefault,
+                backgroundColor:
+                  colorScheme === "dark"
+                    ? BeeColors.darkGray
+                    : BeeColors.lightGray,
+              },
+            ]}
+            placeholder="Email"
+            placeholderTextColor={Colors[colorScheme].tabIconDefault}
+            value={email}
+            onChangeText={setEmail}
+            autoCapitalize="none"
+            keyboardType="email-address"
+          />
+
+          <TextInput
+            style={[
+              styles.input,
+              {
+                color: Colors[colorScheme].text,
+                borderColor: Colors[colorScheme].tabIconDefault,
+                backgroundColor:
+                  colorScheme === "dark"
+                    ? BeeColors.darkGray
+                    : BeeColors.lightGray,
+              },
+            ]}
+            placeholder="Mot de passe"
+            placeholderTextColor={Colors[colorScheme].tabIconDefault}
+            value={password}
+            onChangeText={setPassword}
+            secureTextEntry
+          />
+
+          <TouchableOpacity
+            style={[styles.button, { opacity: loading ? 0.7 : 1 }]}
+            onPress={handleLogin}
+            disabled={loading}
+          >
+            <ThemedText style={styles.buttonText}>
+              {loading ? "Connexion..." : "Se connecter"}
+            </ThemedText>
+          </TouchableOpacity>
+
+          <ThemedView style={styles.registerContainer}>
+            <ThemedText>Pas encore de compte ? </ThemedText>
+            <Link href="/(auth)/register" asChild>
+              <TouchableOpacity>
+                <ThemedText style={styles.registerText}>S'inscrire</ThemedText>
+              </TouchableOpacity>
+            </Link>
+          </ThemedView>
         </ThemedView>
-      </ThemedView>
-    </KeyboardAvoidingView>
+      </KeyboardAvoidingView>
+    </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
+  safeArea: {
+    flex: 1,
+    backgroundColor: "white",
+  },
+  keyboardView: {
+    flex: 1,
+  },
   container: {
     flex: 1,
     justifyContent: "center",
     padding: 20,
   },
   logo: {
-    width: 100,
+    width: 300,
     height: 100,
     alignSelf: "center",
     marginBottom: 20,
@@ -170,7 +154,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 15,
   },
   button: {
-    backgroundColor: "#FFD700", // Couleur jaune pour le thème abeille
+    backgroundColor: BeeColors.primary,
     borderRadius: 8,
     height: 50,
     justifyContent: "center",
@@ -187,11 +171,11 @@ const styles = StyleSheet.create({
     marginTop: 20,
   },
   registerText: {
-    color: "#FFD700", // Couleur jaune pour le thème abeille
+    color: BeeColors.primary,
     fontWeight: "bold",
   },
   error: {
-    color: "red",
+    color: BeeColors.danger,
     textAlign: "center",
     marginBottom: 15,
   },

@@ -10,7 +10,9 @@ const {
 const protect = require("../middleware/authMiddleware");
 
 const router = express.Router();
-
+router.get("/", (req, res) => {
+  res.status(200).json({ message: "Auth API is running" });
+});
 router.post("/register", registerUser);
 router.post("/complete-profile", protect, completeProfile);
 router.post("/login", loginUser);
