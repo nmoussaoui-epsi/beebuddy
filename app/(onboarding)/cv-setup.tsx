@@ -1,4 +1,3 @@
-import { Input } from "@/components/ui/Input";
 import { OnboardingButton } from "@/components/ui/OnboardingButton";
 import { useAuth } from "@/contexts/AuthContext";
 import { LinearGradient } from "expo-linear-gradient";
@@ -13,6 +12,7 @@ import {
   TouchableWithoutFeedback,
   View,
 } from "react-native";
+import Input from "../../components/ui/Input";
 import { profileService } from "../../services/ProfileService";
 
 const CV_STEPS = [
@@ -120,7 +120,6 @@ export default function CVSetupScreen() {
               onChangeText={(value) =>
                 handleInputChange(currentStepData.field, value)
               }
-              style={styles.input}
               keyboardType={
                 currentStepData.field === "expected_salary"
                   ? "numeric"
@@ -173,26 +172,6 @@ const styles = StyleSheet.create({
     fontSize: 16,
     marginBottom: 40,
     textAlign: "center",
-  },
-  input: {
-    backgroundColor: "#FFFFFF",
-    borderRadius: 16,
-    color: "#000000",
-    fontSize: 18,
-    paddingHorizontal: 24,
-    paddingVertical: 20,
-    width: "100%",
-    minHeight: 60,
-    borderWidth: 2,
-    borderColor: "#C4FF00",
-    shadowColor: "#000",
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 3.84,
-    elevation: 5,
   },
   footer: {
     paddingHorizontal: 24,
