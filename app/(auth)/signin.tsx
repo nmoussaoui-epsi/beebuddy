@@ -32,7 +32,8 @@ export default function SignInScreen() {
     if (error) {
       Alert.alert("Erreur de connexion", error.message);
     } else {
-      router.replace("/(tabs)");
+      // Laisser la logique de redirection à app/index.tsx
+      router.replace("/");
     }
     setLoading(false);
   };

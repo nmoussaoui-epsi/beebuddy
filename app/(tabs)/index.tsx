@@ -1,75 +1,166 @@
-import { Image } from 'expo-image';
-import { Platform, StyleSheet } from 'react-native';
-
-import { HelloWave } from '@/components/HelloWave';
-import ParallaxScrollView from '@/components/ParallaxScrollView';
-import { ThemedText } from '@/components/ThemedText';
-import { ThemedView } from '@/components/ThemedView';
+import { ProfileIncompleteAlert } from "@/components/ui/ProfileIncompleteAlert";
+import { useAuth } from "@/contexts/AuthContext";
+import { LinearGradient } from "expo-linear-gradient";
+import React from "react";
+import { SafeAreaView, ScrollView, StyleSheet, Text, View } from "react-native";
 
 export default function HomeScreen() {
+  const { profile, user } = useAuth();
+
+  // Vérifier si le profil est incomplet
+  const isProfileIncomplete = !profile?.full_name || !profile?.role;
+
   return (
-    <ParallaxScrollView
-      headerBackgroundColor={{ light: '#A1CEDC', dark: '#1D3D47' }}
-      headerImage={
-        <Image
-          source={require('@/assets/images/partial-react-logo.png')}
-          style={styles.reactLogo}
-        />
-      }>
-      <ThemedView style={styles.titleContainer}>
-        <ThemedText type="title">Welcome!</ThemedText>
-        <HelloWave />
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 1: Try it</ThemedText>
-        <ThemedText>
-          Edit <ThemedText type="defaultSemiBold">app/(tabs)/index.tsx</ThemedText> to see changes.
-          Press{' '}
-          <ThemedText type="defaultSemiBold">
-            {Platform.select({
-              ios: 'cmd + d',
-              android: 'cmd + m',
-              web: 'F12',
-            })}
-          </ThemedText>{' '}
-          to open developer tools.
-        </ThemedText>
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 2: Explore</ThemedText>
-        <ThemedText>
-          {`Tap the Explore tab to learn more about what's included in this starter app.`}
-        </ThemedText>
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 3: Get a fresh start</ThemedText>
-        <ThemedText>
-          {`When you're ready, run `}
-          <ThemedText type="defaultSemiBold">npm run reset-project</ThemedText> to get a fresh{' '}
-          <ThemedText type="defaultSemiBold">app</ThemedText> directory. This will move the current{' '}
-          <ThemedText type="defaultSemiBold">app</ThemedText> to{' '}
-          <ThemedText type="defaultSemiBold">app-example</ThemedText>.
-        </ThemedText>
-      </ThemedView>
-    </ParallaxScrollView>
+    <SafeAreaView style={styles.container}>
+      <LinearGradient
+        colors={["#2A2A2A", "#1E1E1E", "#2A2A2A"]}
+        style={styles.gradient}
+      >
+        <ScrollView contentContainerStyle={styles.scrollContent}>
+          {/* Header */}
+          <View style={styles.header}>
+            <View style={styles.logoContainer}>
+              <Text style={styles.logo}>🐝</Text>
+              <Text style={styles.appName}>BeeBuddy</Text>
+            </View>
+            <Text style={styles.greeting}>
+              Bonjour{" "}
+              {profile?.full_name ||
+                user?.email?.split("@")[0] ||
+                "Utilisateur"}{" "}
+              !
+            </Text>
+          </View>
+
+          {/* Alerte profil incomplet */}
+          {isProfileIncomplete && (
+            <ProfileIncompleteAlert visible={isProfileIncomplete} />
+          )}
+
+          {/* Contenu principal */}
+          <View style={styles.mainContent}>
+            {profile?.role === "freelance" ? (
+              <View style={styles.section}>
+                <Text style={styles.sectionTitle}>
+                  Tableau de bord Freelance
+                </Text>
+                <View style={styles.card}>
+                  <Text style={styles.cardTitle}>Projets disponibles</Text>
+                  <Text style={styles.cardSubtitle}>
+                    Découvrez les projets qui correspondent à votre profil
+                  </Text>
+                </View>
+                <View style={styles.card}>
+                  <Text style={styles.cardTitle}>Mes candidatures</Text>
+                  <Text style={styles.cardSubtitle}>
+                    Suivez l&apos;état de vos candidatures
+                  </Text>
+                </View>
+              </View>
+            ) : profile?.role === "client" ? (
+              <View style={styles.section}>
+                <Text style={styles.sectionTitle}>Tableau de bord Client</Text>
+                <View style={styles.card}>
+                  <Text style={styles.cardTitle}>Mes projets</Text>
+                  <Text style={styles.cardSubtitle}>
+                    Gérez vos projets en cours
+                  </Text>
+                </View>
+                <View style={styles.card}>
+                  <Text style={styles.cardTitle}>Freelances recommandés</Text>
+                  <Text style={styles.cardSubtitle}>
+                    Trouvez les meilleurs talents
+                  </Text>
+                </View>
+              </View>
+            ) : (
+              <View style={styles.section}>
+                <Text style={styles.sectionTitle}>Bienvenue sur BeeBuddy</Text>
+                <Text style={styles.description}>
+                  Connectez-vous avec les meilleurs freelances ou trouvez votre
+                  prochain projet !
+                </Text>
+              </View>
+            )}
+          </View>
+        </ScrollView>
+      </LinearGradient>
+    </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
-  titleContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 8,
+  container: {
+    flex: 1,
+    backgroundColor: "#2A2A2A",
   },
-  stepContainer: {
-    gap: 8,
+  gradient: {
+    flex: 1,
+  },
+  scrollContent: {
+    flexGrow: 1,
+  },
+  header: {
+    paddingHorizontal: 24,
+    paddingTop: 20,
+    paddingBottom: 30,
+  },
+  logoContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    marginBottom: 16,
+  },
+  logo: {
+    fontSize: 32,
+    marginRight: 12,
+  },
+  appName: {
+    color: "#C4FF00",
+    fontSize: 24,
+    fontWeight: "bold",
+  },
+  greeting: {
+    color: "#FFFFFF",
+    fontSize: 18,
+    fontWeight: "500",
+  },
+  mainContent: {
+    flex: 1,
+    paddingHorizontal: 24,
+  },
+  section: {
+    marginBottom: 24,
+  },
+  sectionTitle: {
+    color: "#FFFFFF",
+    fontSize: 22,
+    fontWeight: "bold",
+    marginBottom: 16,
+  },
+  description: {
+    color: "rgba(255, 255, 255, 0.7)",
+    fontSize: 16,
+    lineHeight: 24,
+    textAlign: "center",
+    marginTop: 20,
+  },
+  card: {
+    backgroundColor: "rgba(255, 255, 255, 0.1)",
+    borderRadius: 16,
+    padding: 20,
+    marginBottom: 16,
+    borderWidth: 1,
+    borderColor: "rgba(255, 255, 255, 0.1)",
+  },
+  cardTitle: {
+    color: "#FFFFFF",
+    fontSize: 18,
+    fontWeight: "600",
     marginBottom: 8,
   },
-  reactLogo: {
-    height: 178,
-    width: 290,
-    bottom: 0,
-    left: 0,
-    position: 'absolute',
+  cardSubtitle: {
+    color: "rgba(255, 255, 255, 0.7)",
+    fontSize: 14,
+    lineHeight: 20,
   },
 });
