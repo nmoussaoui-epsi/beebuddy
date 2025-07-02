@@ -16,11 +16,17 @@ interface AuthLayoutProps {
   children: React.ReactNode;
   title: string;
   subtitle?: string;
+  compact?: boolean;
 }
 
 const { height } = Dimensions.get("window");
 
-export function AuthLayout({ children, title, subtitle }: AuthLayoutProps) {
+export function AuthLayout({
+  children,
+  title,
+  subtitle,
+  compact = false,
+}: AuthLayoutProps) {
   const colorScheme = useColorScheme();
   const colors = Colors[colorScheme ?? "light"];
 
@@ -52,7 +58,9 @@ export function AuthLayout({ children, title, subtitle }: AuthLayoutProps) {
             )}
           </View>
 
-          <View style={styles.content}>{children}</View>
+          <View style={[styles.content, compact && styles.contentCompact]}>
+            {children}
+          </View>
         </ScrollView>
       </LinearGradient>
     </SafeAreaView>
@@ -72,28 +80,32 @@ const styles = StyleSheet.create({
   },
   header: {
     alignItems: "center",
-    paddingTop: height * 0.1,
-    paddingBottom: 40,
+    paddingTop: height * 0.05,
+    paddingBottom: 24,
   },
   logo: {
-    width: 80,
-    height: 80,
-    marginBottom: 16,
+    width: 60,
+    height: 60,
+    marginBottom: 12,
   },
   title: {
-    fontSize: 28,
+    fontSize: 26,
     fontWeight: "bold",
     textAlign: "center",
-    marginBottom: 8,
+    marginBottom: 6,
   },
   subtitle: {
-    fontSize: 16,
+    fontSize: 15,
     textAlign: "center",
-    lineHeight: 22,
+    lineHeight: 20,
   },
   content: {
     flex: 1,
     justifyContent: "center",
-    paddingBottom: 40,
+    paddingBottom: 20,
+  },
+  contentCompact: {
+    justifyContent: "flex-start",
+    paddingTop: 20,
   },
 });
