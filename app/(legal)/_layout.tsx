@@ -8,8 +8,8 @@ export default function LegalLayout() {
         presentation: "modal",
       }}
     >
-      <Stack.Screen name="terms" />
       <Stack.Screen name="privacy" />
+      <Stack.Screen name="terms" />
       <Stack.Screen name="legal-notices" />
       <Stack.Screen name="data-management" />
     </Stack>

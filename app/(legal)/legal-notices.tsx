@@ -29,41 +29,17 @@ export default function LegalNotices() {
           Dernière mise à jour : 15 janvier 2025
         </ThemedText>
 
-        <ThemedText style={styles.sectionTitle}>
-          Éditeur de l&apos;application
-        </ThemedText>
+        <ThemedText style={styles.sectionTitle}>Éditeur</ThemedText>
         <ThemedText style={styles.paragraph}>
-          BeeBuddy{"\n"}
-          Société : [Nom de votre société]{"\n"}
-          Forme juridique : [SAS/SARL/Auto-entrepreneur]{"\n"}
-          Capital social : [Montant du capital]{"\n"}
-          Siège social : [Adresse complète]{"\n"}
-          RCS : [Numéro RCS]{"\n"}
-          SIRET : [Numéro SIRET]{"\n"}
-          TVA intracommunautaire : [Numéro TVA]
-        </ThemedText>
-
-        <ThemedText style={styles.sectionTitle}>
-          Directeur de publication
-        </ThemedText>
-        <ThemedText style={styles.paragraph}>
-          [Nom du directeur de publication]{"\n"}
-          Qualité : [Fonction dans l&apos;entreprise]
-        </ThemedText>
-
-        <ThemedText style={styles.sectionTitle}>Contact</ThemedText>
-        <ThemedText style={styles.paragraph}>
-          Email : contact@beebuddy.app{"\n"}
-          Téléphone : [Numéro de téléphone]{"\n"}
-          Adresse : [Adresse postale]
+          BeeBuddy SAS{"\n"}
+          123 Avenue des Champs-Élysées, 75008 Paris{"\n"}
+          Email : contact@beebuddy.app
         </ThemedText>
 
         <ThemedText style={styles.sectionTitle}>Hébergement</ThemedText>
         <ThemedText style={styles.paragraph}>
-          L&apos;application BeeBuddy est hébergée par :{"\n"}
           Supabase Inc.{"\n"}
-          970 Toa Payoh North #07-04{"\n"}
-          Singapore 318992{"\n"}
+          970 Toa Payoh North #07-04, Singapore 318992{"\n"}
           Site web : https://supabase.com
         </ThemedText>
 
@@ -71,34 +47,16 @@ export default function LegalNotices() {
           Propriété intellectuelle
         </ThemedText>
         <ThemedText style={styles.paragraph}>
-          L&apos;ensemble de cette application, y compris mais sans s&apos;y
-          limiter, la structure générale, les textes, images fixes ou animées,
-          sons, savoir-faire, marques, et tous les autres éléments composant
-          l&apos;application sont la propriété exclusive de BeeBuddy ou de ses
-          partenaires.
+          Tous les éléments de l&apos;application (design, textes, logos) sont
+          la propriété de BeeBuddy. Toute reproduction est interdite sans
+          autorisation écrite préalable.
         </ThemedText>
 
+        <ThemedText style={styles.sectionTitle}>Contact</ThemedText>
         <ThemedText style={styles.paragraph}>
-          Toute reproduction, représentation, modification, publication,
-          adaptation de tout ou partie des éléments de l&apos;application, quel
-          que soit le moyen ou le procédé utilisé, est interdite, sauf
-          autorisation écrite préalable de BeeBuddy.
-        </ThemedText>
-
-        <ThemedText style={styles.sectionTitle}>Responsabilité</ThemedText>
-        <ThemedText style={styles.paragraph}>
-          BeeBuddy ne pourra être tenu responsable des dommages directs et
-          indirects causés au matériel de l&apos;utilisateur, lors de
-          l&apos;accès à l&apos;application, et résultant soit de
-          l&apos;utilisation d&apos;un matériel ne répondant pas aux
-          spécifications techniques requises, soit de l&apos;apparition
-          d&apos;un bug ou d&apos;une incompatibilité.
-        </ThemedText>
-
-        <ThemedText style={styles.sectionTitle}>Droit applicable</ThemedText>
-        <ThemedText style={styles.paragraph}>
-          Les présentes mentions légales sont régies par le droit français. En
-          cas de litige, les tribunaux français seront seuls compétents.
+          Pour toute question :{"\n"}
+          Email : legal@beebuddy.app{"\n"}
+          Adresse : BeeBuddy SAS, 123 Avenue des Champs-Élysées, 75008 Paris
         </ThemedText>
 
         <View style={styles.bottomSpacing} />
