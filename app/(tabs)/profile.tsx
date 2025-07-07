@@ -1,5 +1,6 @@
 import { useAuth } from "@/contexts/AuthContext";
 import { Ionicons } from "@expo/vector-icons";
+import { router } from "expo-router";
 import React, { useCallback, useEffect, useState } from "react";
 import {
   Alert,
@@ -297,6 +298,123 @@ export default function ProfileScreen() {
           </View>
         )}
 
+        {/* Section Support & Légal */}
+        <View style={styles.section}>
+          <Text style={styles.sectionTitle}>Support & Légal</Text>
+
+          <TouchableOpacity
+            style={styles.menuItem}
+            onPress={() => router.push("/support")}
+          >
+            <View style={styles.menuItemContent}>
+              <Ionicons name="help-circle-outline" size={24} color="#ebff56" />
+              <View style={styles.menuItemText}>
+                <Text style={styles.menuItemTitle}>Support</Text>
+                <Text style={styles.menuItemSubtitle}>
+                  Besoin d&apos;aide ? Contactez-nous
+                </Text>
+              </View>
+            </View>
+            <Ionicons name="chevron-forward" size={20} color="#666" />
+          </TouchableOpacity>
+
+          <TouchableOpacity
+            style={styles.menuItem}
+            onPress={() => router.push("/feedback")}
+          >
+            <View style={styles.menuItemContent}>
+              <Ionicons name="star-outline" size={24} color="#ebff56" />
+              <View style={styles.menuItemText}>
+                <Text style={styles.menuItemTitle}>Donner mon avis</Text>
+                <Text style={styles.menuItemSubtitle}>
+                  Aidez-nous à améliorer l&apos;app
+                </Text>
+              </View>
+            </View>
+            <Ionicons name="chevron-forward" size={20} color="#666" />
+          </TouchableOpacity>
+
+          <TouchableOpacity
+            style={styles.menuItem}
+            onPress={() => router.push("/data-management")}
+          >
+            <View style={styles.menuItemContent}>
+              <Ionicons name="shield-outline" size={24} color="#ebff56" />
+              <View style={styles.menuItemText}>
+                <Text style={styles.menuItemTitle}>Mes données (RGPD)</Text>
+                <Text style={styles.menuItemSubtitle}>
+                  Gérer vos données personnelles
+                </Text>
+              </View>
+            </View>
+            <Ionicons name="chevron-forward" size={20} color="#666" />
+          </TouchableOpacity>
+
+          <TouchableOpacity
+            style={styles.menuItem}
+            onPress={() => router.push("/(legal)/privacy" as any)}
+          >
+            <View style={styles.menuItemContent}>
+              <Ionicons
+                name="document-text-outline"
+                size={24}
+                color="#ebff56"
+              />
+              <View style={styles.menuItemText}>
+                <Text style={styles.menuItemTitle}>
+                  Politique de Confidentialité
+                </Text>
+                <Text style={styles.menuItemSubtitle}>
+                  Protection de vos données
+                </Text>
+              </View>
+            </View>
+            <Ionicons name="chevron-forward" size={20} color="#666" />
+          </TouchableOpacity>
+
+          <TouchableOpacity
+            style={styles.menuItem}
+            onPress={() => router.push("/(legal)/terms" as any)}
+          >
+            <View style={styles.menuItemContent}>
+              <Ionicons
+                name="document-text-outline"
+                size={24}
+                color="#ebff56"
+              />
+              <View style={styles.menuItemText}>
+                <Text style={styles.menuItemTitle}>
+                  Conditions d&apos;Utilisation
+                </Text>
+                <Text style={styles.menuItemSubtitle}>
+                  Règles d&apos;usage de l&apos;app
+                </Text>
+              </View>
+            </View>
+            <Ionicons name="chevron-forward" size={20} color="#666" />
+          </TouchableOpacity>
+
+          <TouchableOpacity
+            style={styles.menuItem}
+            onPress={() => router.push("/(legal)/legal-notices" as any)}
+          >
+            <View style={styles.menuItemContent}>
+              <Ionicons
+                name="information-circle-outline"
+                size={24}
+                color="#ebff56"
+              />
+              <View style={styles.menuItemText}>
+                <Text style={styles.menuItemTitle}>Mentions Légales</Text>
+                <Text style={styles.menuItemSubtitle}>
+                  Informations légales de l&apos;app
+                </Text>
+              </View>
+            </View>
+            <Ionicons name="chevron-forward" size={20} color="#666" />
+          </TouchableOpacity>
+        </View>
+
         <TouchableOpacity style={styles.logoutButton} onPress={handleLogout}>
           <Ionicons name="log-out-outline" size={20} color="#FF6B6B" />
           <Text style={styles.logoutButtonText}>Se déconnecter</Text>
@@ -524,5 +642,33 @@ const styles = StyleSheet.create({
   },
   bottomSpacing: {
     height: 20,
+  },
+  menuItem: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    backgroundColor: "#2A2A2A",
+    padding: 16,
+    borderRadius: 12,
+    marginBottom: 8,
+  },
+  menuItemContent: {
+    flexDirection: "row",
+    alignItems: "center",
+    flex: 1,
+  },
+  menuItemText: {
+    marginLeft: 16,
+    flex: 1,
+  },
+  menuItemTitle: {
+    fontSize: 16,
+    fontWeight: "500",
+    color: "#FFFFFF",
+  },
+  menuItemSubtitle: {
+    fontSize: 14,
+    color: "#AAAAAA",
+    marginTop: 2,
   },
 });

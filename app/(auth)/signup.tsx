@@ -172,16 +172,39 @@ export default function SignUpScreen() {
           </TouchableOpacity>
         </View>
 
-        <Text style={[styles.terms, { color: colors.tabIconDefault }]}>
-          En créant un compte, vous acceptez nos{" "}
-          <Text style={{ color: colors.tint }}>
-            Conditions d&apos;utilisation
-          </Text>{" "}
-          et notre{" "}
-          <Text style={{ color: colors.tint }}>
-            Politique de confidentialité
+        <View style={styles.termsContainer}>
+          <Text style={[styles.terms, { color: colors.tabIconDefault }]}>
+            En créant un compte, vous acceptez nos{" "}
           </Text>
-        </Text>
+          <TouchableOpacity
+            onPress={() => router.push("/(legal)/terms" as any)}
+          >
+            <Text
+              style={[
+                styles.terms,
+                { color: colors.tint, textDecorationLine: "underline" },
+              ]}
+            >
+              Conditions d&apos;utilisation
+            </Text>
+          </TouchableOpacity>
+          <Text style={[styles.terms, { color: colors.tabIconDefault }]}>
+            {" "}
+            et notre{" "}
+          </Text>
+          <TouchableOpacity
+            onPress={() => router.push("/(legal)/privacy" as any)}
+          >
+            <Text
+              style={[
+                styles.terms,
+                { color: colors.tint, textDecorationLine: "underline" },
+              ]}
+            >
+              Politique de confidentialité
+            </Text>
+          </TouchableOpacity>
+        </View>
       </View>
     </AuthLayout>
   );
@@ -228,5 +251,11 @@ const styles = StyleSheet.create({
     fontSize: 12,
     textAlign: "center",
     lineHeight: 16,
+  },
+  termsContainer: {
+    flexDirection: "row",
+    flexWrap: "wrap",
+    justifyContent: "center",
+    alignItems: "center",
   },
 });
