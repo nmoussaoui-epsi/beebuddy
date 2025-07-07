@@ -336,22 +336,6 @@ export default function ProfileScreen() {
 
           <TouchableOpacity
             style={styles.menuItem}
-            onPress={() => router.push("/data-management")}
-          >
-            <View style={styles.menuItemContent}>
-              <Ionicons name="shield-outline" size={24} color="#ebff56" />
-              <View style={styles.menuItemText}>
-                <Text style={styles.menuItemTitle}>Mes données (RGPD)</Text>
-                <Text style={styles.menuItemSubtitle}>
-                  Gérer vos données personnelles
-                </Text>
-              </View>
-            </View>
-            <Ionicons name="chevron-forward" size={20} color="#666" />
-          </TouchableOpacity>
-
-          <TouchableOpacity
-            style={styles.menuItem}
             onPress={() => router.push("/(legal)/privacy" as any)}
           >
             <View style={styles.menuItemContent}>
@@ -366,6 +350,22 @@ export default function ProfileScreen() {
                 </Text>
                 <Text style={styles.menuItemSubtitle}>
                   Protection de vos données
+                </Text>
+              </View>
+            </View>
+            <Ionicons name="chevron-forward" size={20} color="#666" />
+          </TouchableOpacity>
+
+          <TouchableOpacity
+            style={styles.menuItem}
+            onPress={() => router.push("/(legal)/data-management" as any)}
+          >
+            <View style={styles.menuItemContent}>
+              <Ionicons name="shield-outline" size={24} color="#ebff56" />
+              <View style={styles.menuItemText}>
+                <Text style={styles.menuItemTitle}>Mes données RGPD</Text>
+                <Text style={styles.menuItemSubtitle}>
+                  Gérer vos droits sur vos données
                 </Text>
               </View>
             </View>
