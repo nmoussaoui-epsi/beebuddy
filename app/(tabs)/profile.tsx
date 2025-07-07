@@ -130,7 +130,7 @@ export default function ProfileScreen() {
               <Ionicons
                 name={profile.role === "freelance" ? "briefcase" : "business"}
                 size={18}
-                color="#FFD700"
+                color="#ebff56"
               />
               <Text style={styles.roleText}>
                 {profile.role === "freelance" ? "Freelancer" : "Client"}
@@ -144,7 +144,7 @@ export default function ProfileScreen() {
             <Ionicons
               name={isEditing ? "checkmark" : "pencil"}
               size={20}
-              color="#FFD700"
+              color="#ebff56"
             />
           </TouchableOpacity>
         </View>
@@ -343,7 +343,7 @@ const styles = StyleSheet.create({
     height: 80,
     borderRadius: 40,
     borderWidth: 3,
-    borderColor: "#FFD700",
+    borderColor: "#ebff56",
   },
   editAvatarButton: {
     position: "absolute",
@@ -352,7 +352,7 @@ const styles = StyleSheet.create({
     width: 32,
     height: 32,
     borderRadius: 16,
-    backgroundColor: "#FFD700",
+    backgroundColor: "#ebff56",
     justifyContent: "center",
     alignItems: "center",
     borderWidth: 2,
@@ -375,7 +375,7 @@ const styles = StyleSheet.create({
   roleText: {
     fontSize: 16,
     fontWeight: "500",
-    color: "#FFD700",
+    color: "#ebff56",
   },
   editButton: {
     width: 44,
@@ -385,7 +385,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     borderWidth: 1,
-    borderColor: "#FFD700",
+    borderColor: "#ebff56",
   },
   section: {
     backgroundColor: "#2A2A2A",
@@ -434,7 +434,7 @@ const styles = StyleSheet.create({
     gap: 8,
   },
   skillTag: {
-    backgroundColor: "#FFD700",
+    backgroundColor: "#ebff56",
     paddingHorizontal: 12,
     paddingVertical: 6,
     borderRadius: 16,
@@ -455,7 +455,7 @@ const styles = StyleSheet.create({
     padding: 16,
     marginBottom: 12,
     borderLeftWidth: 4,
-    borderLeftColor: "#FFD700",
+    borderLeftColor: "#ebff56",
   },
   projectTitle: {
     fontSize: 16,
@@ -472,7 +472,7 @@ const styles = StyleSheet.create({
   projectBudget: {
     fontSize: 14,
     fontWeight: "600",
-    color: "#FFD700",
+    color: "#ebff56",
   },
   editActions: {
     flexDirection: "row",
@@ -494,7 +494,7 @@ const styles = StyleSheet.create({
   },
   saveButton: {
     flex: 1,
-    backgroundColor: "#FFD700",
+    backgroundColor: "#ebff56",
     paddingVertical: 14,
     paddingHorizontal: 20,
     borderRadius: 12,

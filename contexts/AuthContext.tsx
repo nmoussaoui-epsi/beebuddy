@@ -1,5 +1,6 @@
 import { supabase } from "@/lib/supabase";
 import { Session, User } from "@supabase/supabase-js";
+import { router } from "expo-router";
 import React, { createContext, useContext, useEffect, useState } from "react";
 import { Profile, profileService } from "../services/ProfileService";
 
@@ -88,6 +89,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   const signOut = async () => {
     await supabase.auth.signOut();
+    // Redirection explicite vers la page de connexion
+    router.replace("/(auth)/signin");
   };
 
   const value = {

@@ -212,11 +212,31 @@ class SearchService {
             .limit(1);
 
           if (projects && projects.length > 0) {
-            const { error } = await supabase.from("matches").insert({
-              project_id: projects[0].id,
-              freelancer_id: userId,
-              client_id: targetUserId,
-            });
+            const { data: match, error } = await supabase
+              .from("matches")
+              .insert({
+                project_id: projects[0].id,
+                freelancer_id: userId,
+                client_id: targetUserId,
+              })
+              .select()
+              .single();
+
+            if (match && !error) {
+              // Créer automatiquement une conversation pour ce match
+              const { error: conversationError } = await supabase
+                .from("conversations")
+                .insert({
+                  match_id: match.id,
+                });
+
+              if (conversationError) {
+                console.error(
+                  "Erreur lors de la création de la conversation:",
+                  conversationError
+                );
+              }
+            }
 
             return { data: !error, error };
           }
@@ -248,6 +268,163 @@ class SearchService {
       const { data, error } = await query;
       return { data, error };
     } catch (error) {
+      return { data: null, error: error as Error };
+    }
+  }
+
+  // Fonction de test pour forcer un match (pour le développement)
+  async forceCreateMatch(
+    currentUserId: string,
+    targetUserId: string,
+    currentUserRole: string
+  ) {
+    try {
+      console.log(
+        "Tentative de création de match forcé:",
+        currentUserId,
+        "->",
+        targetUserId
+      );
+
+      if (currentUserRole === "freelance") {
+        // Récupérer un projet du client cible
+        const { data: projects } = await supabase
+          .from("projects")
+          .select("id")
+          .eq("client_id", targetUserId)
+          .limit(1);
+
+        if (!projects || projects.length === 0) {
+          console.log("Aucun projet trouvé pour le client:", targetUserId);
+          return {
+            data: null,
+            error: new Error("Aucun projet trouvé pour ce client"),
+          };
+        }
+
+        // Vérifier s'il n'y a pas déjà un match
+        const { data: existingMatch } = await supabase
+          .from("matches")
+          .select("id")
+          .eq("project_id", projects[0].id)
+          .eq("freelancer_id", currentUserId)
+          .eq("client_id", targetUserId)
+          .single();
+
+        if (existingMatch) {
+          console.log("Match déjà existant");
+          return { data: existingMatch, error: null };
+        }
+
+        // Créer le match
+        const { data: match, error: matchError } = await supabase
+          .from("matches")
+          .insert({
+            project_id: projects[0].id,
+            freelancer_id: currentUserId,
+            client_id: targetUserId,
+          })
+          .select()
+          .single();
+
+        if (matchError) {
+          console.error("Erreur création match:", matchError);
+          return { data: null, error: matchError };
+        }
+
+        console.log("Match créé:", match);
+
+        // Créer automatiquement une conversation pour ce match
+        const { data: conversation, error: conversationError } = await supabase
+          .from("conversations")
+          .insert({
+            match_id: match.id,
+          })
+          .select()
+          .single();
+
+        if (conversationError) {
+          console.error("Erreur création conversation:", conversationError);
+          return { data: match, error: conversationError };
+        }
+
+        console.log("Conversation créée:", conversation);
+
+        return { data: { match, conversation }, error: null };
+      } else {
+        // Pour les clients, récupérer un CV de freelance
+        const { data: cvs } = await supabase
+          .from("cv")
+          .select("id")
+          .eq("id", targetUserId)
+          .limit(1);
+
+        if (!cvs || cvs.length === 0) {
+          return {
+            data: null,
+            error: new Error("Aucun CV trouvé pour ce freelance"),
+          };
+        }
+
+        // Récupérer un projet du client actuel
+        const { data: projects } = await supabase
+          .from("projects")
+          .select("id")
+          .eq("client_id", currentUserId)
+          .limit(1);
+
+        if (!projects || projects.length === 0) {
+          return {
+            data: null,
+            error: new Error("Aucun projet trouvé pour vous"),
+          };
+        }
+
+        // Vérifier s'il n'y a pas déjà un match
+        const { data: existingMatch } = await supabase
+          .from("matches")
+          .select("id")
+          .eq("project_id", projects[0].id)
+          .eq("freelancer_id", targetUserId)
+          .eq("client_id", currentUserId)
+          .single();
+
+        if (existingMatch) {
+          return { data: existingMatch, error: null };
+        }
+
+        // Créer le match
+        const { data: match, error: matchError } = await supabase
+          .from("matches")
+          .insert({
+            project_id: projects[0].id,
+            freelancer_id: targetUserId,
+            client_id: currentUserId,
+          })
+          .select()
+          .single();
+
+        if (matchError) {
+          return { data: null, error: matchError };
+        }
+
+        // Créer automatiquement une conversation pour ce match
+        const { data: conversation, error: conversationError } = await supabase
+          .from("conversations")
+          .insert({
+            match_id: match.id,
+          })
+          .select()
+          .single();
+
+        if (conversationError) {
+          return { data: match, error: conversationError };
+        }
+
+        return { data: { match, conversation }, error: null };
+      }
+    } catch (error) {
+      console.error("Erreur générale forceCreateMatch:", error);
       return { data: null, error: error as Error };
     }
   }

@@ -3,7 +3,8 @@ import React from "react";
 import { Dimensions, Text, View } from "react-native";
 
 import { HapticTab } from "@/components/HapticTab";
-import { IconSymbol } from "@/components/ui/IconSymbol";
+import { CustomIcon } from "@/components/ui/CustomIcon";
+import { useChat } from "@/contexts/ChatContext";
 
 const { width: screenWidth } = Dimensions.get("window");
 const sideOffset = screenWidth * 0.1; // 10% de l'écran de chaque côté
@@ -15,7 +16,7 @@ const TabIcon = ({
   label,
   isDarkPage,
 }: {
-  name: any;
+  name: "home" | "search" | "chat" | "user";
   color: string;
   focused: boolean;
   label?: string;
@@ -36,7 +37,7 @@ const TabIcon = ({
           justifyContent: "center",
         }}
       >
-        <IconSymbol
+        <CustomIcon
           size={18}
           name={name}
           color="#000000" // Toujours noir pour l'icône sur fond blanc
@@ -54,11 +55,12 @@ const TabIcon = ({
     );
   }
 
-  return <IconSymbol size={20} name={name} color={color} />;
+  return <CustomIcon size={20} name={name} color={color} />;
 };
 
 export default function TabLayout() {
   const pathname = usePathname();
+  const { isInChat } = useChat();
   const isDarkPage = pathname === "/profile";
 
   return (
@@ -68,26 +70,28 @@ export default function TabLayout() {
         tabBarInactiveTintColor: "#888888",
         headerShown: false,
         tabBarButton: HapticTab,
-        tabBarStyle: {
-          position: "absolute",
-          bottom: 40,
-          height: 50,
-          marginHorizontal: sideOffset,
-          backgroundColor: isDarkPage ? "#1A1A1A" : "#3B3B3B",
-          borderRadius: 25,
-          paddingHorizontal: 16,
-          paddingVertical: 16,
-          borderTopWidth: 0,
-          shadowColor: "#000",
-          shadowOffset: {
-            width: 0,
-            height: 2,
-          },
-          shadowOpacity: 0.25,
-          shadowRadius: 6,
-          elevation: 16,
-          overflow: "hidden",
-        },
+        tabBarStyle: isInChat
+          ? { display: "none" }
+          : {
+              position: "absolute",
+              bottom: 40,
+              height: 50,
+              marginHorizontal: sideOffset,
+              backgroundColor: isDarkPage ? "#1A1A1A" : "#3B3B3B",
+              borderRadius: 25,
+              paddingHorizontal: 16,
+              paddingVertical: 16,
+              borderTopWidth: 0,
+              shadowColor: "#000",
+              shadowOffset: {
+                width: 0,
+                height: 2,
+              },
+              shadowOpacity: 0.25,
+              shadowRadius: 6,
+              elevation: 16,
+              overflow: "hidden",
+            },
         tabBarItemStyle: {
           flex: 1,
           alignItems: "center",
@@ -109,7 +113,7 @@ export default function TabLayout() {
           title: "Accueil",
           tabBarIcon: ({ color, focused }) => (
             <TabIcon
-              name="house.fill"
+              name="home"
               color={color}
               focused={focused}
               isDarkPage={isDarkPage}
@@ -120,13 +124,28 @@ export default function TabLayout() {
       <Tabs.Screen
         name="search"
         options={{
-          title: "Matchs",
+          title: "Match",
           tabBarIcon: ({ color, focused }) => (
             <TabIcon
-              name="magnifyingglass"
+              name="search"
               color={color}
               focused={focused}
-              label="Matchs"
+              label="Match"
+              isDarkPage={isDarkPage}
+            />
+          ),
+        }}
+      />
+      <Tabs.Screen
+        name="messages"
+        options={{
+          title: "Chats",
+          tabBarIcon: ({ color, focused }) => (
+            <TabIcon
+              name="chat"
+              color={color}
+              focused={focused}
+              label="Chats"
               isDarkPage={isDarkPage}
             />
           ),
@@ -138,7 +157,7 @@ export default function TabLayout() {
           title: "Profil",
           tabBarIcon: ({ color, focused }) => (
             <TabIcon
-              name="person.fill"
+              name="user"
               color={color}
               focused={focused}
               label="Profil"
