@@ -1,4 +1,4 @@
-import { Tabs } from "expo-router";
+import { Tabs, usePathname } from "expo-router";
 import React from "react";
 import { Dimensions, Text, View } from "react-native";
 
@@ -13,17 +13,19 @@ const TabIcon = ({
   color,
   focused,
   label,
+  isDarkPage,
 }: {
   name: any;
   color: string;
   focused: boolean;
   label?: string;
+  isDarkPage: boolean;
 }) => {
   if (focused && label) {
     return (
       <View
         style={{
-          backgroundColor: "#FFFFFF",
+          backgroundColor: "#FFFFFF", // Toujours blanc pour l'onglet actif
           paddingHorizontal: 16,
           paddingVertical: 8,
           borderRadius: 20,
@@ -34,10 +36,14 @@ const TabIcon = ({
           justifyContent: "center",
         }}
       >
-        <IconSymbol size={18} name={name} color={color} />
+        <IconSymbol
+          size={18}
+          name={name}
+          color="#000000" // Toujours noir pour l'icône sur fond blanc
+        />
         <Text
           style={{
-            color: "#000000",
+            color: "#000000", // Toujours noir pour le texte sur fond blanc
             fontSize: 12,
             fontWeight: "500",
           }}
@@ -52,11 +58,14 @@ const TabIcon = ({
 };
 
 export default function TabLayout() {
+  const pathname = usePathname();
+  const isDarkPage = pathname === "/profile";
+
   return (
     <Tabs
       screenOptions={{
-        tabBarActiveTintColor: "#000000",
-        tabBarInactiveTintColor: "#FFFFFF",
+        tabBarActiveTintColor: "#FFFFFF",
+        tabBarInactiveTintColor: "#888888",
         headerShown: false,
         tabBarButton: HapticTab,
         tabBarStyle: {
@@ -64,7 +73,7 @@ export default function TabLayout() {
           bottom: 40,
           height: 50,
           marginHorizontal: sideOffset,
-          backgroundColor: "#3B3B3B",
+          backgroundColor: isDarkPage ? "#1A1A1A" : "#3B3B3B",
           borderRadius: 25,
           paddingHorizontal: 16,
           paddingVertical: 16,
@@ -99,30 +108,42 @@ export default function TabLayout() {
         options={{
           title: "Accueil",
           tabBarIcon: ({ color, focused }) => (
-            <TabIcon name="house.fill" color={color} focused={focused} />
+            <TabIcon
+              name="house.fill"
+              color={color}
+              focused={focused}
+              isDarkPage={isDarkPage}
+            />
           ),
         }}
       />
       <Tabs.Screen
         name="search"
         options={{
-          title: "Rechercher",
+          title: "Matchs",
           tabBarIcon: ({ color, focused }) => (
             <TabIcon
               name="magnifyingglass"
               color={color}
               focused={focused}
-              label="Search"
+              label="Matchs"
+              isDarkPage={isDarkPage}
             />
           ),
         }}
       />
       <Tabs.Screen
-        name="explore"
+        name="profile"
         options={{
-          title: "Explorer",
+          title: "Profil",
           tabBarIcon: ({ color, focused }) => (
-            <TabIcon name="paperplane.fill" color={color} focused={focused} />
+            <TabIcon
+              name="person.fill"
+              color={color}
+              focused={focused}
+              label="Profil"
+              isDarkPage={isDarkPage}
+            />
           ),
         }}
       />
