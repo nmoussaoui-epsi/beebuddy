@@ -11,6 +11,7 @@ import {
   View,
 } from "react-native";
 
+import { ProfileDetailModal } from "../../components/ui/ProfileDetailModal";
 import { SwipeCard } from "../../components/ui/SwipeCard";
 import { searchService } from "../../services/SearchService";
 import { UserProfile } from "../../types/search";
@@ -20,6 +21,10 @@ export default function SearchScreen() {
   const [users, setUsers] = useState<UserProfile[]>([]);
   const [loading, setLoading] = useState(true);
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [modalVisible, setModalVisible] = useState(false);
+  const [selectedProfile, setSelectedProfile] = useState<UserProfile | null>(
+    null
+  );
 
   // Composant de motif de fond
   const BackgroundPattern = () => (
@@ -95,29 +100,14 @@ export default function SearchScreen() {
   const handleDetailsPress = () => {
     if (currentIndex < users.length) {
       const currentUser = users[currentIndex];
-      console.log("=== DÉTAILS DU PROFIL ===");
-      console.log("Nom:", currentUser.full_name);
-      console.log("Rôle:", currentUser.role);
-
-      if (currentUser.role === "freelance" && currentUser.cv) {
-        console.log("Compétences:", currentUser.cv.skills?.join(", "));
-        console.log("Salaire attendu:", currentUser.cv.expected_salary, "€");
-        console.log("Expérience:", currentUser.cv.experience);
-      }
-
-      if (currentUser.role === "client" && currentUser.projects) {
-        currentUser.projects.forEach((project, index) => {
-          console.log(`Projet ${index + 1}:`, project.title);
-          console.log("Description:", project.description);
-          console.log("Budget:", project.budget, "€");
-        });
-      }
-
-      // TODO: Ouvrir une modal de détails
-      alert(
-        `Détails de ${currentUser.full_name} - Vérifiez la console pour plus d'infos`
-      );
+      setSelectedProfile(currentUser);
+      setModalVisible(true);
     }
+  };
+
+  const handleCloseModal = () => {
+    setModalVisible(false);
+    setSelectedProfile(null);
   };
 
   const getTitle = () => {
@@ -242,6 +232,12 @@ export default function SearchScreen() {
           </View>
         </ScrollView>
       </LinearGradient>
+
+      <ProfileDetailModal
+        visible={modalVisible}
+        onClose={handleCloseModal}
+        profile={selectedProfile}
+      />
     </SafeAreaView>
   );
 }
