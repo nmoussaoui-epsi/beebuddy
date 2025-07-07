@@ -105,42 +105,6 @@ export default function SearchScreen() {
     }
   };
 
-  // Fonction de test pour forcer un match
-  const handleForceMatch = async () => {
-    if (!profile || currentIndex >= users.length) return;
-
-    const targetUser = users[currentIndex];
-    console.log("Force match avec:", targetUser.full_name);
-
-    try {
-      const { data, error } = await searchService.forceCreateMatch(
-        profile.id,
-        targetUser.id,
-        profile.role
-      );
-
-      if (error) {
-        console.error("Erreur lors de la création du match forcé:", error);
-        alert("Erreur: " + error.message);
-        return;
-      }
-
-      if (data) {
-        console.log("Match forcé créé avec succès:", data);
-        alert(
-          `✅ Match créé avec succès avec ${targetUser.full_name} ! Vérifiez vos conversations.`
-        );
-
-        // Passer au profil suivant
-        const newIndex = currentIndex + 1;
-        setCurrentIndex(newIndex);
-      }
-    } catch (error) {
-      console.error("Erreur générale:", error);
-      alert("Erreur lors de la création du match");
-    }
-  };
-
   const handleCloseModal = () => {
     setModalVisible(false);
     setSelectedProfile(null);
@@ -266,21 +230,6 @@ export default function SearchScreen() {
               </View>
             )}
           </View>
-
-          {/* Bouton de test pour forcer un match (développement uniquement) */}
-          {currentUser && (
-            <View style={styles.testContainer}>
-              <TouchableOpacity
-                style={styles.testButton}
-                onPress={handleForceMatch}
-              >
-                <Ionicons name="heart" size={20} color="#FFF" />
-                <Text style={styles.testButtonText}>
-                  Force Match avec {currentUser.full_name}
-                </Text>
-              </TouchableOpacity>
-            </View>
-          )}
         </ScrollView>
       </LinearGradient>
 
@@ -431,32 +380,5 @@ const styles = StyleSheet.create({
     opacity: 0.3,
     borderRadius: 4,
     transform: [{ rotate: "45deg" }],
-  },
-  testContainer: {
-    marginTop: 0,
-    paddingHorizontal: 20,
-    alignItems: "center",
-  },
-  testButton: {
-    backgroundColor: "#FF6B6B",
-    flexDirection: "row",
-    alignItems: "center",
-    paddingHorizontal: 20,
-    paddingVertical: 12,
-    borderRadius: 25,
-    gap: 8,
-    shadowColor: "#000",
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 4,
-    elevation: 5,
-  },
-  testButtonText: {
-    color: "#FFF",
-    fontSize: 14,
-    fontWeight: "600",
   },
 });
