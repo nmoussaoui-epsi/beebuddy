@@ -58,7 +58,8 @@ export function Input({
 
 const styles = StyleSheet.create({
   container: {
-    marginBottom: 16,
+    marginBottom: 8,
+    width: "100%",
   },
   label: {
     fontSize: 16,
@@ -93,3 +94,5 @@ const styles = StyleSheet.create({
     marginLeft: 4,
   },
 });
+
+export default Input;

@@ -1,5 +1,5 @@
 import { Ionicons } from "@expo/vector-icons";
-import { Link, router } from "expo-router";
+import { router } from "expo-router";
 import React, { useState } from "react";
 import { Alert, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 
@@ -32,7 +32,8 @@ export default function SignInScreen() {
     if (error) {
       Alert.alert("Erreur de connexion", error.message);
     } else {
-      router.replace("/(tabs)");
+      // Laisser la logique de redirection à app/index.tsx
+      router.replace("/");
     }
     setLoading(false);
   };
@@ -40,12 +41,12 @@ export default function SignInScreen() {
   return (
     <AuthLayout
       title="Bon retour !"
-      subtitle="Connectez-vous pour retrouver vos missions et conversations"
+      subtitle="Connectez-vous pour reprendre vos échanges et vos opportunités."
+      compact={true}
     >
       <View style={styles.form}>
         <Input
-          label="Email"
-          placeholder="votre@email.com"
+          placeholder="Entrez votre email"
           value={email}
           onChangeText={setEmail}
           keyboardType="email-address"
@@ -60,8 +61,7 @@ export default function SignInScreen() {
         />
 
         <Input
-          label="Mot de passe"
-          placeholder="••••••••"
+          placeholder="Entrez votre mot de passe"
           value={password}
           onChangeText={setPassword}
           secureTextEntry={!showPassword}
@@ -113,13 +113,11 @@ export default function SignInScreen() {
           <Text style={[styles.footerText, { color: colors.tabIconDefault }]}>
             Pas encore de compte ?{" "}
           </Text>
-          <Link href="/(auth)/signup" asChild>
-            <TouchableOpacity>
-              <Text style={[styles.linkText, { color: colors.tint }]}>
-                Créer un compte
-              </Text>
-            </TouchableOpacity>
-          </Link>
+          <TouchableOpacity onPress={() => router.replace("/(auth)/signup")}>
+            <Text style={[styles.linkText, { color: colors.tint }]}>
+              Créer un compte
+            </Text>
+          </TouchableOpacity>
         </View>
       </View>
     </AuthLayout>
@@ -128,7 +126,7 @@ export default function SignInScreen() {
 
 const styles = StyleSheet.create({
   form: {
-    gap: 16,
+    gap: 8,
   },
   signInButton: {
     marginTop: 8,
@@ -136,7 +134,7 @@ const styles = StyleSheet.create({
   divider: {
     flexDirection: "row",
     alignItems: "center",
-    marginVertical: 24,
+    marginVertical: 16,
   },
   dividerLine: {
     flex: 1,
@@ -148,7 +146,7 @@ const styles = StyleSheet.create({
     fontSize: 14,
   },
   googleButton: {
-    marginBottom: 24,
+    marginBottom: 16,
   },
   footer: {
     flexDirection: "row",

@@ -1,5 +1,5 @@
 import { Ionicons } from "@expo/vector-icons";
-import { Link, router } from "expo-router";
+import { router } from "expo-router";
 import React, { useState } from "react";
 import { Alert, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 
@@ -76,12 +76,11 @@ export default function SignUpScreen() {
   return (
     <AuthLayout
       title="Rejoignez BeeBuddy"
-      subtitle="Créez votre compte pour commencer à swiper sur des missions"
+      subtitle="Trouvez des missions ou des talents en quelques swipes."
     >
       <View style={styles.form}>
         <Input
-          label="Email"
-          placeholder="votre@email.com"
+          placeholder="Entrez votre email"
           value={email}
           onChangeText={setEmail}
           keyboardType="email-address"
@@ -96,8 +95,7 @@ export default function SignUpScreen() {
         />
 
         <Input
-          label="Mot de passe"
-          placeholder="••••••••"
+          placeholder="Créez un mot de passe"
           value={password}
           onChangeText={setPassword}
           secureTextEntry={!showPassword}
@@ -113,8 +111,7 @@ export default function SignUpScreen() {
         />
 
         <Input
-          label="Confirmer le mot de passe"
-          placeholder="••••••••"
+          placeholder="Confirmez votre mot de passe"
           value={confirmPassword}
           onChangeText={setConfirmPassword}
           secureTextEntry={!showConfirmPassword}
@@ -168,25 +165,46 @@ export default function SignUpScreen() {
           <Text style={[styles.footerText, { color: colors.tabIconDefault }]}>
             Déjà un compte ?{" "}
           </Text>
-          <Link href="/(auth)/signin" asChild>
-            <TouchableOpacity>
-              <Text style={[styles.linkText, { color: colors.tint }]}>
-                Se connecter
-              </Text>
-            </TouchableOpacity>
-          </Link>
+          <TouchableOpacity onPress={() => router.replace("/(auth)/signin")}>
+            <Text style={[styles.linkText, { color: colors.tint }]}>
+              Se connecter
+            </Text>
+          </TouchableOpacity>
         </View>
 
-        <Text style={[styles.terms, { color: colors.tabIconDefault }]}>
-          En créant un compte, vous acceptez nos{" "}
-          <Text style={{ color: colors.tint }}>
-            Conditions d&apos;utilisation
-          </Text>{" "}
-          et notre{" "}
-          <Text style={{ color: colors.tint }}>
-            Politique de confidentialité
+        <View style={styles.termsContainer}>
+          <Text style={[styles.terms, { color: colors.tabIconDefault }]}>
+            En créant un compte, vous acceptez nos{" "}
           </Text>
-        </Text>
+          <TouchableOpacity
+            onPress={() => router.push("/(legal)/terms" as any)}
+          >
+            <Text
+              style={[
+                styles.terms,
+                { color: colors.tint, textDecorationLine: "underline" },
+              ]}
+            >
+              Conditions d&apos;utilisation
+            </Text>
+          </TouchableOpacity>
+          <Text style={[styles.terms, { color: colors.tabIconDefault }]}>
+            {" "}
+            et notre{" "}
+          </Text>
+          <TouchableOpacity
+            onPress={() => router.push("/(legal)/privacy" as any)}
+          >
+            <Text
+              style={[
+                styles.terms,
+                { color: colors.tint, textDecorationLine: "underline" },
+              ]}
+            >
+              Politique de confidentialité
+            </Text>
+          </TouchableOpacity>
+        </View>
       </View>
     </AuthLayout>
   );
@@ -194,7 +212,7 @@ export default function SignUpScreen() {
 
 const styles = StyleSheet.create({
   form: {
-    gap: 16,
+    gap: 8,
   },
   signUpButton: {
     marginTop: 8,
@@ -202,7 +220,7 @@ const styles = StyleSheet.create({
   divider: {
     flexDirection: "row",
     alignItems: "center",
-    marginVertical: 24,
+    marginVertical: 16,
   },
   dividerLine: {
     flex: 1,
@@ -214,13 +232,13 @@ const styles = StyleSheet.create({
     fontSize: 14,
   },
   googleButton: {
-    marginBottom: 24,
+    marginBottom: 16,
   },
   footer: {
     flexDirection: "row",
     justifyContent: "center",
     alignItems: "center",
-    marginBottom: 16,
+    marginBottom: 8,
   },
   footerText: {
     fontSize: 16,
@@ -233,5 +251,11 @@ const styles = StyleSheet.create({
     fontSize: 12,
     textAlign: "center",
     lineHeight: 16,
+  },
+  termsContainer: {
+    flexDirection: "row",
+    flexWrap: "wrap",
+    justifyContent: "center",
+    alignItems: "center",
   },
 });

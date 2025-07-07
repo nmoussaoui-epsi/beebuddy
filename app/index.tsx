@@ -6,19 +6,24 @@ import { useEffect } from "react";
 import { ActivityIndicator, StyleSheet, View } from "react-native";
 
 export default function IndexScreen() {
-  const { isAuthenticated, loading } = useAuth();
+  const { isAuthenticated, loading, profile } = useAuth();
   const colorScheme = useColorScheme();
   const colors = Colors[colorScheme ?? "light"];
 
   useEffect(() => {
     if (!loading) {
       if (isAuthenticated) {
-        router.replace("/(tabs)");
+        // Si l'utilisateur est connecté mais n'a pas de profil ou pas de rôle défini
+        if (!profile || !profile.role) {
+          router.replace("/(onboarding)" as any);
+        } else {
+          router.replace("/(tabs)");
+        }
       } else {
         router.replace("/(auth)/signin");
       }
     }
-  }, [isAuthenticated, loading]);
+  }, [isAuthenticated, loading, profile]);
 
   return (
     <View style={[styles.container, { backgroundColor: colors.background }]}>
