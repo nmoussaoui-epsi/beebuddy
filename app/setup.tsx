@@ -1,16 +1,6 @@
+import { createTestUsers, showTestCredentials } from "@/services/TestUsersService";
 import React from "react";
-import {
-  SafeAreaView,
-  ScrollView,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
-} from "react-native";
-import {
-  createTestUsers,
-  showTestCredentials,
-} from "../scripts/createTestUsers";
+import { SafeAreaView, ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 
 export default function SetupScreen() {
   const handleCreateUsers = async () => {
@@ -26,19 +16,13 @@ export default function SetupScreen() {
     <SafeAreaView style={styles.container}>
       <ScrollView contentContainerStyle={styles.content}>
         <Text style={styles.title}>Configuration de la Base de Données</Text>
-        <Text style={styles.subtitle}>
-          Créez des utilisateurs de test pour développer et tester votre
-          application
-        </Text>
+        <Text style={styles.subtitle}>Créez des utilisateurs de test pour développer et tester votre application</Text>
 
         <View style={styles.section}>
-          <Text style={styles.sectionTitle}>
-            Étape 1: Créer les utilisateurs
-          </Text>
+          <Text style={styles.sectionTitle}>Étape 1: Créer les utilisateurs</Text>
           <Text style={styles.description}>
-            Cette action va créer 10 freelances et 10 clients avec leurs données
-            associées. Chaque utilisateur aura un compte d&apos;authentification
-            Supabase valide.
+            Cette action va créer 10 freelances et 10 clients avec leurs données associées. Chaque utilisateur aura un compte
+            d&apos;authentification Supabase valide.
           </Text>
           <TouchableOpacity style={styles.button} onPress={handleCreateUsers}>
             <Text style={styles.buttonText}>Créer 20 utilisateurs de test</Text>
@@ -46,38 +30,26 @@ export default function SetupScreen() {
         </View>
 
         <View style={styles.section}>
-          <Text style={styles.sectionTitle}>
-            Étape 2: Afficher les identifiants
-          </Text>
-          <Text style={styles.description}>
-            Affichez la liste complète des comptes créés avec leurs identifiants
-            de connexion.
-          </Text>
-          <TouchableOpacity
-            style={[styles.button, styles.secondaryButton]}
-            onPress={handleShowCredentials}
-          >
-            <Text style={[styles.buttonText, styles.secondaryButtonText]}>
-              Afficher les identifiants
-            </Text>
+          <Text style={styles.sectionTitle}>Étape 2: Afficher les identifiants</Text>
+          <Text style={styles.description}>Affichez la liste complète des comptes créés avec leurs identifiants de connexion.</Text>
+          <TouchableOpacity style={[styles.button, styles.secondaryButton]} onPress={handleShowCredentials}>
+            <Text style={[styles.buttonText, styles.secondaryButtonText]}>Afficher les identifiants</Text>
           </TouchableOpacity>
         </View>
 
         <View style={styles.infoBox}>
           <Text style={styles.infoTitle}>ℹ️ Informations</Text>
           <Text style={styles.infoText}>
-            • Chaque utilisateur aura un avatar Gravatar unique{"\n"}• Les
-            freelances auront des CV avec compétences variées{"\n"}• Les clients
-            auront 1-2 projets chacun{"\n"}• Mot de passe par défaut:
-            password123{"\n"}• Regardez la console pour suivre la progression
+            • Chaque utilisateur aura un avatar Gravatar unique{"\n"}• Les freelances auront des CV avec compétences variées{"\n"}• Les
+            clients auront 1-2 projets chacun{"\n"}• Mot de passe par défaut: password123{"\n"}• Regardez la console pour suivre la
+            progression
           </Text>
         </View>
 
         <View style={styles.warningBox}>
           <Text style={styles.warningTitle}>⚠️ Attention</Text>
           <Text style={styles.warningText}>
-            Cette action créera de vrais comptes utilisateur dans Supabase. À
-            utiliser uniquement en développement/test.
+            Cette action créera de vrais comptes utilisateur dans Supabase. À utiliser uniquement en développement/test.
           </Text>
         </View>
       </ScrollView>
